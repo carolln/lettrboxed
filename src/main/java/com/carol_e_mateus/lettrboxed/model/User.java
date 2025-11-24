@@ -8,7 +8,10 @@ public class User {
     private Long id;
     
     private String nome;
+    
     private String email;
 
-    private List<Review> reviews = new ArrayList<>();
+    private List<Long> reviews = new ArrayList<>();
+    
+    private List<Long> filmesAssistidos = new ArrayList<>();
 }

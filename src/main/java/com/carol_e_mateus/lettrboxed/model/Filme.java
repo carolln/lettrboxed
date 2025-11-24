@@ -4,12 +4,21 @@ import java.util.List;
 
 
 public class Filme {
+	
     private Long id;
 
     private String titulo;
+    
     private String descricao;
+    
     private String diretor;
-    private int ano_lancamento;
+    
+    private String genero;
+    
+    private int classificao;
+    
+    private int anoLancamento;
 
-    private List<Review> reviews = new ArrayList<>();
+    private List<Long> reviews = new ArrayList<>();
+       
 }
