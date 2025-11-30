@@ -20,5 +20,47 @@ public class Filme {
     private int anoLancamento;
 
     private List<Long> reviews = new ArrayList<>();
+
+	public Long getId() {
+		return id;
+	}
+
+	public String getTitulo() {
+		return titulo;
+	}
+
+	public String getDescricao() {
+		return descricao;
+	}
+
+	public String getDiretor() {
+		return diretor;
+	}
+
+	public String getGenero() {
+		return genero;
+	}
+
+	public int getClassificao() {
+		return classificao;
+	}
+
+	public int getAnoLancamento() {
+		return anoLancamento;
+	}
+
+	public List<Long> getReviews() {
+		return reviews;
+	}
+
+	public Filme(Long id, String titulo, String descricao) {
+		super();
+		this.id = id;
+		this.titulo = titulo;
+		this.descricao = descricao;
+	}
+	
+	
+	
        
 }
