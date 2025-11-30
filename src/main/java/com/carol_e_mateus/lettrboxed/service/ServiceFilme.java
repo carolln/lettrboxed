@@ -1,32 +1,35 @@
 package com.carol_e_mateus.lettrboxed.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.carol_e_mateus.lettrboxed.model.*;
+import com.carol_e_mateus.lettrboxed.repository.RepositoryFilme;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class ServiceFilme {
+	
+	@Autowired
+	RepositoryFilme repositoryFilme;
+	
     public Filme createFilme(Filme filme){
 
         // to do
         return filme;
     }
 
+    
     public Filme getFilme(Long id){
 
-        // to do
-        Filme a = new Filme();
+        // TODO
+        Filme a = new Filme(id, null, null);
         return a;
     }
 
-    public List<Filme> getAllFilmes(Filme filme){
-
-        // to do
-        // o corpo atual eh so pra nao ficar reclamando
-        List<Filme> a = new ArrayList<>();
-        return a;
+    public List<Filme> getAllFilmes(){
+        return repositoryFilme.getAll();
     }
 
     public void deleteFilme(Long id) {
