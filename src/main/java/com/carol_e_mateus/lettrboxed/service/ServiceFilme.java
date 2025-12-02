@@ -23,9 +23,10 @@ public class ServiceFilme {
     
     public Filme getFilme(Long id){
 
-        // TODO
-        Filme a = new Filme(id, null, null);
-        return a;
+        if (repositoryFilme.getFilm(id) != null) {
+            return repositoryFilme.getFilm(id);
+        }
+        return null;
     }
 
     public List<Filme> getAllFilmes(){

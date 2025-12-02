@@ -53,11 +53,15 @@ public class Filme {
 		return reviews;
 	}
 
-	public Filme(Long id, String titulo, String descricao) {
+	public Filme(Long id, String titulo, String descricao, String diretor, String genero, int classificao, int anoLancamento) {
 		super();
 		this.id = id;
 		this.titulo = titulo;
 		this.descricao = descricao;
+        this.diretor = diretor;
+        this.genero = genero;
+        this.classificao = classificao;
+        this.anoLancamento = anoLancamento;
 	}
 	
 	
