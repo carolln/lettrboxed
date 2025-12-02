@@ -1,26 +1,35 @@
 package com.carol_e_mateus.lettrboxed.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.carol_e_mateus.lettrboxed.model.*;
+import com.carol_e_mateus.lettrboxed.repository.RepositoryUser;
+
 import java.util.*;
 
 @Service
 public class ServiceUser {
+
+    @Autowired
+    RepositoryUser repositoryUser;
+
     public User createUser(User user) {
         // to do
         return user;
     }
 
     public User getUser(Long id) {
-        // to do
-        User a = new User();
-        return a;
+
+        if (repositoryUser.getUser(id) != null) {
+            return repositoryUser.getUser(id);
+        }
+        return null;
     }
 
-    public List<User> getAllUsers() { // nao sei se preciasaremos disso mas veremos
+    public List<User> getAllUsers() {
 
-        //to do
-        List<User> a = new ArrayList<>();
+        List<User> a = new ArrayList<>(repositoryUser.getAll());
         return a;
+        
     }
 }
