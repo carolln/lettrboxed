@@ -3,10 +3,11 @@ package com.carol_e_mateus.lettrboxed.repository;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
-import com.carol_e_mateus.lettrboxed.model.Filme;
+import com.carol_e_mateus.lettrboxed.model.*;
 
 @Repository
 public class RepositoryFilme {
@@ -37,7 +38,7 @@ public class RepositoryFilme {
 
 	}
 	
-	//Falta implementar
+
 	public Filme getFilm(Long id){
 		 
 		Filme get = null;
@@ -57,5 +58,18 @@ public class RepositoryFilme {
 		
 		return todosOsFilmes;
 	}
+
+	public boolean AddReviewToFilme(Review review, Long id) {
+		if (filmes.get(id) != null) {
+			filmes.get(id).addReview(review);
+			return true;
+		}
+		return false;
+	}
+
+	public boolean deleteReviewFromFilme(Long idFilme, Long IdReview) {
+		return filmes.get(idFilme).deleteReview(IdReview);
+	}
+
 
 }
