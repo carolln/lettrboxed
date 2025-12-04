@@ -63,8 +63,14 @@ public class Filme {
         this.classificao = classificao;
         this.anoLancamento = anoLancamento;
 	}
+
+	public void addReview(Review review) {
+		reviews.add(review.getId());
+	}
 	
-	
+	public boolean deleteReview(Long idd) {
+		return reviews.remove(id);
+	}
 	
        
 }
