@@ -32,7 +32,7 @@ public class RepositoryReview {
 		r1.setId(id1);
 		reviews.put(id1++, r1);
 
-		Review r2 = new Review(2L, 1L, "loucura essa tal da gravidade neh", 7);
+		Review r2 = new Review(2L, 1L, "loucura essa tal da gravidade neh", 5);
 		r2.setId(id1);
 		reviews.put(id1++, r2);
 

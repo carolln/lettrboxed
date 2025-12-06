@@ -13,6 +13,16 @@ import com.carol_e_mateus.lettrboxed.model.*;
 public class RepositoryFilme {
 	
 	private HashMap <Long, Filme> filmes = new HashMap <>();
+
+	private Long maxId;
+
+	public Long getMaxId() {
+		return maxId;
+	}
+
+	public void setMaxId(Long l) {
+		this.maxId = l;
+	}
 	
 	
 	public RepositoryFilme() {
@@ -35,6 +45,7 @@ public class RepositoryFilme {
 		filmes.put(f3.getId(), f3);
 		filmes.put(f4.getId(), f4);
 		filmes.put(f5.getId(), f5);
+		setMaxId(numero);
 
 	}
 	
@@ -59,12 +70,21 @@ public class RepositoryFilme {
 		return todosOsFilmes;
 	}
 
+	public Filme createFilme(Filme f) {
+		filmes.put(f.getId(), f);
+		return f;
+	}
+
 	public boolean AddReviewToFilme(Review review, Long id) {
 		if (filmes.get(id) != null) {
 			filmes.get(id).addReview(review);
 			return true;
 		}
 		return false;
+	}
+
+	public void deleteFilme(Long id) {
+		filmes.remove(id);
 	}
 
 	public boolean deleteReviewFromFilme(Long idFilme, Long IdReview) {

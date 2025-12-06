@@ -70,6 +70,11 @@ public class ServiceReview {
 
     public Review updateReview(Review r) {
 
+        
+        if (r.getId() > counter) {
+            // da erro aqui
+        }
+        
         // se o dono for diferente
 
         if (r.getDono() != repositoryReview.getReview(r.getId()).getDono()) { // ve se o novo dono eh engual ao dono que tem no review original de mesmo id (dono antigo)

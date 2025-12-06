@@ -53,8 +53,13 @@ public class Filme {
 		return reviews;
 	}
 
+	public void setId(Long id) {
+		this.id=id;
+	}
+
+	public Filme(){}
+	
 	public Filme(Long id, String titulo, String descricao, String diretor, String genero, int classificao, int anoLancamento) {
-		super();
 		this.id = id;
 		this.titulo = titulo;
 		this.descricao = descricao;
@@ -64,13 +69,43 @@ public class Filme {
         this.anoLancamento = anoLancamento;
 	}
 
+	public Filme(String titulo, String descricao, String diretor, String genero, int classificao, int anoLancamento) {
+		this.titulo = titulo;
+		this.descricao = descricao;
+        this.diretor = diretor;
+        this.genero = genero;
+        this.classificao = classificao;
+        this.anoLancamento = anoLancamento;
+	}
+
+	public Filme(Filme f) {
+		this.id = f.getId();
+		this.titulo = f.getTitulo();
+		this.descricao = f.getDescricao();
+        this.diretor = f.getDiretor();
+        this.genero = f.getGenero();
+        this.classificao = f.getClassificao();
+        this.anoLancamento = f.getAnoLancamento();
+	}
+
 	public void addReview(Review review) {
 		reviews.add(review.getId());
 	}
 	
 	public boolean deleteReview(Long idd) {
-		return reviews.remove(id);
+		return reviews.remove(idd);
 	}
 	
+	public Filme updateFilme(Filme f) {
+
+		this.anoLancamento = f.getAnoLancamento();
+		this.classificao = f.getClassificao();
+		this.descricao = f.getDescricao();
+		this.diretor = f.getDiretor();
+		this.genero = f.getGenero();
+		this.titulo = f.getTitulo();
+
+		return this;
+	}
        
 }

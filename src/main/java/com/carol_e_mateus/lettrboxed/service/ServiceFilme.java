@@ -23,6 +23,14 @@ public class ServiceFilme {
     @Autowired
     RepositoryReview repositoryReview;
 
+    private Long counter;
+
+    @PostConstruct
+    public void inicializarCounter() {
+        Long maxid = repositoryFilme.getMaxId();
+        counter = new Long(maxid + 1);
+    }
+
     @PostConstruct
 	public void initializeFilmes() {
         List<Review> eu2 = repositoryReview.GetAll();
@@ -32,10 +40,12 @@ public class ServiceFilme {
 		}
 	}
 	
-    public Filme createFilme(Filme filme){
+    public Filme createFilme(Filme f){
 
-        // to do
-        return filme;
+        Filme ff = new Filme(f.getTitulo(), f.getDescricao(), f.getDiretor(), f.getGenero(), f.getClassificao(), f.getAnoLancamento());
+        ff.setId(counter);
+        counter++;
+        return repositoryFilme.createFilme(ff);
     }
 
     
@@ -51,28 +61,66 @@ public class ServiceFilme {
         return repositoryFilme.getAll();
     }
 
-    public void deleteFilme(Long id) {
-        // to do
+    
+    public Filme updateFilme(Filme f) {
+        
+        repositoryFilme.getFilm(f.getId()).updateFilme(f);
+        return f;
+    }
+    
+    public boolean deleteFilme(Long id){
+        // delete film
+        
+        // apagar todos os reviews do filme em especifico
+        for (Long review : repositoryFilme.getFilm(id).getReviews()) { // lista de reviews do filme
+            //       ^^ESSE EH O ID DO REVIEW QUE DEVE SER APAGADO
+            
+            repositoryUser.getUser(repositoryReview.getReview(review).getDono()).deleteReview(review);
+            repositoryReview.deleteReview(review); // deleta o review do filme da lista de reviews geral
+            //aqui eu:
+            // 1 - busco o review no repositorio que tem como id o review da vez
+            // 2 - pego o id do dono (user que fez o review)
+            // 3 - pego esse user em questao
+            // 4 - tiro o review da vez da lista de reviews do user dono
+        }
+
+        repositoryFilme.deleteFilme(id);
+        
+        return true;
+    }
+
+    public List<Filme> filtrarFilmes(double nota) {
+        double a = nota;
+        List<Filme> passaro = new ArrayList<Filme>();
+
+        for (Filme f : repositoryFilme.getAll()) { // faz um monte de casting e checa se a nota media eh maior do que a estabelecida
+            if (getRatingMedio(f.getId()) >= a) {
+                passaro.add(f);
+            }
+        }
+
+        return passaro;
     }
 
     public double getRatingMedio (Long id) {
         // to do
-        int runsum = 0;
-        int cont = 0;
-
+        double runsum = 0;
+        double cont = 0;
+    
         for (Review review : repositoryReview.GetAll()) {
             if (review.getIdfilme() == id) {
-                runsum+=review.getNota();
+                double temp = review.getNota();
+                runsum+=temp;
                 cont++;
             }
         }
-
+    
         if (cont == 0) {
             return 0D;
         }
-
+    
         return runsum / cont;
-
+    
         
     }
 }

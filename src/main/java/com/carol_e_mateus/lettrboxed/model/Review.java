@@ -61,7 +61,8 @@ public class Review {
         this.idfilme = a;
     }
 
-    public Review updateReview(Review r) {
+    public Review 
+    updateReview(Review r) {
         this.texto = r.texto;
         this.nota = r.nota;
 
