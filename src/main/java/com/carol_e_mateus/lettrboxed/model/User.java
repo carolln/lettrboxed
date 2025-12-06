@@ -35,9 +35,15 @@ public class User {
         return filmesAssistidos;
     }
 
+    public void setId(Long idd) {
+        this.id = idd;
+    }
+
     public void setFilmesAssistidos(ArrayList<Long> ar) {
         this.filmesAssistidos = ar;
     }
+
+    public User(){}
 
     public User(Long id, String nome, String email, List<Long> reviews, List<Long> filmesAssistidos) {
         this.id = id;
@@ -70,6 +76,12 @@ public class User {
 
     public boolean deleteReview(Long IdReview) {
         return reviews.remove(IdReview);
+    }
+
+    public User updateUser(User u) {
+        this.nome = u.nome;
+        this.email = u.email;
+        return this;
     }
 
 

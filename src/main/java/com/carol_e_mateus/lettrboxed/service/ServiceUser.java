@@ -23,6 +23,14 @@ public class ServiceUser {
     @Autowired
     RepositoryReview repositoryReview;
 
+    private Long counter;
+
+    @PostConstruct
+    public void inicializarCounter() {
+        Long maxid = repositoryUser.getIdmax();
+        counter = new Long(maxid + 1);
+    }
+
     @PostConstruct
 	public void initializeUsers() {
         List<Review> eu2 = repositoryReview.GetAll();
@@ -33,7 +41,9 @@ public class ServiceUser {
 	}
 
     public User createUser(User user) {
-        // to do
+        repositoryUser.createUser(user);
+        user.setId(counter);
+        counter++;
         return user;
     }
 
@@ -45,10 +55,29 @@ public class ServiceUser {
         return null;
     }
 
+    public User updateUser(User u) {
+        return repositoryUser.getUser(u.getId()).updateUser(u);
+    }
+
     public List<User> getAllUsers() {
 
         List<User> a = new ArrayList<>(repositoryUser.getAll());
         return a;
         
+    }
+
+    public boolean deleteUser(Long id) {
+        // para cada review na lista de reviews
+        // tirar a review da lista de reviews do filme em questao
+        // apagar a review em questao
+
+        for (Long review : repositoryUser.getUser(id).getReviews()) {
+            //pegar o review na lista de reviews; ver a qual filme se refere; tirar dali
+            repositoryFilme.getFilm(repositoryReview.getReview(review).getIdfilme()).deleteReview(review);
+            //repositoryFilme.AddReviewToFilme(null, id)
+            repositoryReview.deleteReview(review);
+        }
+
+        return repositoryUser.deleteUser(id);
     }
 }

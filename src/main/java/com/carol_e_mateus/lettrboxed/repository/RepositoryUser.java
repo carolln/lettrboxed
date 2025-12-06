@@ -12,6 +12,15 @@ public class RepositoryUser {
 	
 	private HashMap <Long, User> users = new HashMap<>();
 
+	private long idmax;
+
+	public Long getIdmax() {
+		return idmax;
+	}
+
+	public void setIdmax(Long id) {
+		this.idmax = id;
+	}
 
 	RepositoryUser() {
 		Long numero = 1L;
@@ -27,7 +36,16 @@ public class RepositoryUser {
 		users.put(u3.getId(), u3);
 		users.put(u4.getId(), u4);
 		users.put(u5.getId(), u5);
-		
+
+
+
+
+
+
+
+
+		setIdmax(numero);
+
 	}
 
 	public User getUser(Long id) {
@@ -37,6 +55,10 @@ public class RepositoryUser {
 		}
 
 		return null;
+	}
+
+	public HashMap<Long, User> getUsers() {
+		return users;
 	}
 
 	public List<User> getAll(){
@@ -61,9 +83,10 @@ public class RepositoryUser {
 		return false;
 	}
 
-    public void deleteUser(Long id) {
+    public boolean deleteUser(Long id) {
        
 		users.remove(id);
+		return true;
     }
 
 }
