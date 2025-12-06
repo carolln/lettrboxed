@@ -2,6 +2,8 @@ package com.carol_e_mateus.lettrboxed.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.carol_e_mateus.lettrboxed.dto.ReviewDTO;
 import com.carol_e_mateus.lettrboxed.model.*;
 import com.carol_e_mateus.lettrboxed.repository.RepositoryFilme;
 import com.carol_e_mateus.lettrboxed.repository.RepositoryReview;
@@ -33,22 +35,48 @@ public class ServiceReview {
         counter = new Long(maxid + 1);
     }
 
-
+//TODO
     public List<Review> getReviewsFilme(Long idFilme) {
         // to do
         List<Review> a = new ArrayList<>();
         return a;
     }
 
-    public Review getReview(Long id) {
-        return repositoryReview.getReview(id);
+    public ReviewDTO getReview(Long id) {
+    	
+    	Review review = repositoryReview.getReview(id);
+    	
+    	String filme = repositoryFilme.getFilm(review.getIdfilme()).getTitulo();
+    	
+    	String username = repositoryUser.getUser(review.getDono()).getNome();
+    	
+    	ReviewDTO reviewDTO = new ReviewDTO(review.getId(),review.getIdfilme(),review.getIdfilme(),username, filme, review.getTexto());
+    	
+        return reviewDTO;
     }
 
-    public List<Review> GetAllReviews() {
-        return repositoryReview.GetAll();
+    public List<ReviewDTO> GetAllReviews() {
+    	
+    	List<Review> reviews = repositoryReview.GetAll();
+    	
+    	List<ReviewDTO> reviewsDTO = new ArrayList<>();
+    	
+    	for(Review review : reviews) {
+    		
+        	String filme = repositoryFilme.getFilm(review.getIdfilme()).getTitulo();
+        	
+        	String username = repositoryUser.getUser(review.getDono()).getNome();
+        	
+        	ReviewDTO reviewDTO = new ReviewDTO(review.getId(),review.getIdfilme(),review.getIdfilme(),username, filme, review.getTexto());
+    		
+        	reviewsDTO.add(reviewDTO);
+    		
+    	}
+    	
+        return reviewsDTO;
     }
 
-    public Review createReview(Review review) {
+    public ReviewDTO createReview(Review review) {
 
         // antes aqui tem que checar se a pessoa ja fez um review, se sim overrida o antigo e mantem o id
 
@@ -65,10 +93,17 @@ public class ServiceReview {
 
         // adiciona review na lista de reviews do filme especifico
         repositoryUser.AddReviewToUser(review, review.getDono());
-        return review;
+        
+    	String filme = repositoryFilme.getFilm(review.getIdfilme()).getTitulo();
+    	
+    	String username = repositoryUser.getUser(review.getDono()).getNome();
+        
+        ReviewDTO novaReview = new ReviewDTO(review.getId(),review.getIdfilme(),review.getIdfilme(),username, filme, review.getTexto());
+        
+        return novaReview;
     }
 
-    public Review updateReview(Review r) {
+    public ReviewDTO updateReview(Review r) {
 
         
         if (r.getId() > counter) {
@@ -98,9 +133,15 @@ public class ServiceReview {
 
             repositoryReview.getReview(r.getId()).setIdFilme(r.getIdfilme());
         }
-
+        
         // substitui todos os valores no objeto original de review
-        return repositoryReview.getReview(r.getId()).updateReview(r);
+        Review review = repositoryReview.getReview(r.getId()).updateReview(r);
+        
+    	String filme = repositoryFilme.getFilm(review.getIdfilme()).getTitulo();
+    	String username = repositoryUser.getUser(review.getDono()).getNome();
+        ReviewDTO reviewDTO = new ReviewDTO(review.getId(),review.getIdfilme(),review.getIdfilme(),username, filme, review.getTexto());
+
+        return reviewDTO;
     }
 
     public boolean deleteReview(Long id) {

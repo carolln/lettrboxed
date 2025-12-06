@@ -4,6 +4,10 @@ public class ReviewDTO {
 	
 	private Long id;
 	
+    private Long userId;
+    
+    private Long filmeId;
+	
 	private String user;
 	
 	private String filme;
@@ -14,7 +18,17 @@ public class ReviewDTO {
 		return id;
 	}
 
-	public String getDono() {
+	public Long getUserId() {
+		return userId;
+	}
+
+
+	public Long getFilmeId() {
+		return filmeId;
+	}
+
+
+	public String getUser() {
 		return user;
 	}
 
@@ -26,12 +40,17 @@ public class ReviewDTO {
 		return texto;
 	}
 
-	public ReviewDTO(Long id, String dono, String filme, String texto) {
+	public ReviewDTO(Long id, Long userId, Long filmeId, String user, String filme, String texto) {
 		super();
 		this.id = id;
-		this.user = dono;
+		this.userId = userId;
+		this.filmeId = filmeId;
+		this.user = user;
 		this.filme = filme;
 		this.texto = texto;
 	}
+
+	
+
 
 }

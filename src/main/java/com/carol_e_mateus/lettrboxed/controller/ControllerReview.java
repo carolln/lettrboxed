@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.carol_e_mateus.lettrboxed.dto.ReviewDTO;
 import com.carol_e_mateus.lettrboxed.model.*;
 import com.carol_e_mateus.lettrboxed.service.*;
 import java.util.*;
@@ -23,17 +24,17 @@ public class ControllerReview {
     ServiceReview serviceReview;
 
     @GetMapping
-    public List<Review> GetAllReviews() {
+    public List<ReviewDTO> GetAllReviews() {
         return serviceReview.GetAllReviews();
     }
 
     @GetMapping("/{id}")
-    public Review getReview(@PathVariable Long id) {
+    public ReviewDTO getReview(@PathVariable Long id) {
         return serviceReview.getReview(id);
     }
     
     @PostMapping
-    public Review createReview(@RequestBody Review r) {
+    public ReviewDTO createReview(@RequestBody Review r) {
         return serviceReview.createReview(r);
     }
 
@@ -49,7 +50,7 @@ public class ControllerReview {
     }
 
     @PutMapping("/put")
-    public Review updateReview(@RequestBody Review r) {
+    public ReviewDTO updateReview(@RequestBody Review r) {
         return serviceReview.updateReview(r);
     }
 
