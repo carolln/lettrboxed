@@ -73,6 +73,24 @@ public class RepositoryReview {
 		
 		return todasAsReviews;
 	}
+	
+	public List<Review> getReviewsFilme(Long filmeId){
+		
+		List<Review> todasAsReviews = new ArrayList <Review>(reviews.values());	
+		
+		List<Review> reviewsFiltradas = new ArrayList <Review>();
+		
+		for(Review review : todasAsReviews){
+			
+			if(review.getIdfilme().equals(filmeId)){
+				
+				reviewsFiltradas.add(review);
+			}
+			
+		}
+		
+		return reviewsFiltradas;
+	}
 
 	public Review addReview(Review review) {
 		reviews.put(review.getId(), review);
