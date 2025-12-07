@@ -11,9 +11,9 @@ public class UserDTO {
 
     private String email;
     
-    private List<ReviewDTO> reviews = new ArrayList<>();
+    private List<ReviewResumoDTO> reviews = new ArrayList<>();
     
-    private List<String> filmesAssistidos = new ArrayList<>();
+    private List<FilmeResumoDTO> filmesAssistidos = new ArrayList<>();
 
 	public Long getId() {
 		return id;
@@ -27,15 +27,15 @@ public class UserDTO {
 		return email;
 	}
 
-	public List<ReviewDTO> getReviews() {
+	public List<ReviewResumoDTO> getReviews() {
 		return reviews;
 	}
 
-	public List<String> getFilmesAssistidos() {
+	public List<FilmeResumoDTO> getFilmesAssistidos() {
 		return filmesAssistidos;
 	}
 
-	public UserDTO(Long id, String name, String email, List<ReviewDTO> reviews, List<String> filmesAssistidos) {
+	public UserDTO(Long id, String name, String email, List<ReviewResumoDTO> reviews, List<FilmeResumoDTO> filmesAssistidos) {
 		super();
 		this.id = id;
 		this.name = name;

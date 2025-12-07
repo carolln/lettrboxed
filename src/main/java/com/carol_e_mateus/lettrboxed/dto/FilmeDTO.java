@@ -1,5 +1,7 @@
 package com.carol_e_mateus.lettrboxed.dto;
 
+import java.util.List;
+
 public class FilmeDTO {
 	
 	private Long id;
@@ -13,14 +15,17 @@ public class FilmeDTO {
     private int classificao;
     
     private int anoLancamento;
+    
+    private List<ReviewResumoDTO> reviews;
 
 	public Long getId() {
 		return id;
 	}
-
-	public String getNome() {
+	
+	public String getTitulo() {
 		return titulo;
 	}
+
 
 	public String getDescricao() {
 		return descricao;
@@ -38,14 +43,20 @@ public class FilmeDTO {
 		return anoLancamento;
 	}
 
-	public FilmeDTO(Long id, String nome, String descricao, String genero, int classificao, int anoLancamento) {
+	public List<ReviewResumoDTO> getReviews() {
+		return reviews;
+	}
+
+	public FilmeDTO(Long id, String titulo, String descricao, String genero, int classificao, int anoLancamento,
+			List<ReviewResumoDTO> reviews) {
 		super();
 		this.id = id;
-		this.titulo = nome;
+		this.titulo = titulo;
 		this.descricao = descricao;
 		this.genero = genero;
+		this.classificao = classificao;
+		this.anoLancamento = anoLancamento;
+		this.reviews = reviews;
 	}
-    
-	
-    
+ 
 }
