@@ -34,23 +34,41 @@ public class ServiceReview {
         Long maxid = repositoryReview.getMaxId();
         counter = new Long(maxid + 1);
     }
+    
+    public ReviewDTO converterParaDTO(Review review) {
+    	
+    	String filme = repositoryFilme.getFilm(review.getIdfilme()).getTitulo();
+    	
+    	String username = repositoryUser.getUser(review.getDono()).getNome();
+    	
+    	ReviewDTO reviewDTO = new ReviewDTO(review.getId(),review.getIdfilme(),review.getIdfilme(),username, filme, review.getTexto(), review.getNota());
+    	
+    	return reviewDTO;
+    	
+    }
 
-//TODO
-    public List<Review> getReviewsFilme(Long idFilme) {
-        // to do
-        List<Review> a = new ArrayList<>();
-        return a;
+    public List<ReviewDTO> getReviewsFilme(Long idFilme) {
+
+        List<Review> reviewsDoFilme = repositoryReview.getReviewsFilme(idFilme);
+        
+        List<ReviewDTO> reviewsDoFilmeDTO = new ArrayList<>();
+        
+    	for(Review review : reviewsDoFilme) {
+    		
+    		ReviewDTO reviewDTO = converterParaDTO(review);
+    		
+        	reviewsDoFilmeDTO.add(reviewDTO);
+    		
+    	}
+        
+        return reviewsDoFilmeDTO;
     }
 
     public ReviewDTO getReview(Long id) {
     	
     	Review review = repositoryReview.getReview(id);
     	
-    	String filme = repositoryFilme.getFilm(review.getIdfilme()).getTitulo();
-    	
-    	String username = repositoryUser.getUser(review.getDono()).getNome();
-    	
-    	ReviewDTO reviewDTO = new ReviewDTO(review.getId(),review.getIdfilme(),review.getIdfilme(),username, filme, review.getTexto());
+		ReviewDTO reviewDTO = converterParaDTO(review);
     	
         return reviewDTO;
     }
@@ -63,11 +81,7 @@ public class ServiceReview {
     	
     	for(Review review : reviews) {
     		
-        	String filme = repositoryFilme.getFilm(review.getIdfilme()).getTitulo();
-        	
-        	String username = repositoryUser.getUser(review.getDono()).getNome();
-        	
-        	ReviewDTO reviewDTO = new ReviewDTO(review.getId(),review.getIdfilme(),review.getIdfilme(),username, filme, review.getTexto());
+    		ReviewDTO reviewDTO = converterParaDTO(review);
     		
         	reviewsDTO.add(reviewDTO);
     		
@@ -94,13 +108,9 @@ public class ServiceReview {
         // adiciona review na lista de reviews do filme especifico
         repositoryUser.AddReviewToUser(review, review.getDono());
         
-    	String filme = repositoryFilme.getFilm(review.getIdfilme()).getTitulo();
-    	
-    	String username = repositoryUser.getUser(review.getDono()).getNome();
+		ReviewDTO novaReviewDTO = converterParaDTO(review);
         
-        ReviewDTO novaReview = new ReviewDTO(review.getId(),review.getIdfilme(),review.getIdfilme(),username, filme, review.getTexto());
-        
-        return novaReview;
+        return novaReviewDTO;
     }
 
     public ReviewDTO updateReview(Review r) {
@@ -137,9 +147,7 @@ public class ServiceReview {
         // substitui todos os valores no objeto original de review
         Review review = repositoryReview.getReview(r.getId()).updateReview(r);
         
-    	String filme = repositoryFilme.getFilm(review.getIdfilme()).getTitulo();
-    	String username = repositoryUser.getUser(review.getDono()).getNome();
-        ReviewDTO reviewDTO = new ReviewDTO(review.getId(),review.getIdfilme(),review.getIdfilme(),username, filme, review.getTexto());
+		ReviewDTO reviewDTO = converterParaDTO(review);
 
         return reviewDTO;
     }

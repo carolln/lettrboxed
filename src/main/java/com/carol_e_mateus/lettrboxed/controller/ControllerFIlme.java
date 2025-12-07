@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.carol_e_mateus.lettrboxed.dto.FilmeDTO;
 import com.carol_e_mateus.lettrboxed.model.Filme;
 import com.carol_e_mateus.lettrboxed.service.ServiceFilme;
 
@@ -24,22 +25,22 @@ public class ControllerFIlme {
 	private ServiceFilme serviceFilme;
 	
     @GetMapping
-    public List<Filme> getAllFilmes () {
+    public List<FilmeDTO> getAllFilmes () {
         return serviceFilme.getAllFilmes();
     }
 
     @GetMapping("/{id}")
-    public Filme getFilme(@PathVariable Long id) {
+    public FilmeDTO getFilme(@PathVariable Long id) {
         return serviceFilme.getFilme(id);
     }
 
     @PostMapping
-    public Filme createFilme(@RequestBody Filme filme){
+    public FilmeDTO createFilme(@RequestBody Filme filme){
         return serviceFilme.createFilme(filme);
     }
 
     @PutMapping("/put")
-    public Filme updateFilme(@RequestBody Filme filme) {
+    public FilmeDTO updateFilme(@RequestBody Filme filme) {
         return serviceFilme.updateFilme(filme);
     }
 
@@ -55,7 +56,7 @@ public class ControllerFIlme {
     }
 
     @GetMapping("/filtrar/{nota}")
-    public List<Filme> filtrarFilmes(@PathVariable double nota) {
+    public List<FilmeDTO> filtrarFilmes(@PathVariable double nota) {
         return serviceFilme.filtrarFilmes(nota);
     }
 

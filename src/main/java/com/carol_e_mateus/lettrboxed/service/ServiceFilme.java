@@ -2,6 +2,9 @@ package com.carol_e_mateus.lettrboxed.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.carol_e_mateus.lettrboxed.dto.FilmeDTO;
+import com.carol_e_mateus.lettrboxed.dto.ReviewResumoDTO;
 import com.carol_e_mateus.lettrboxed.model.*;
 import com.carol_e_mateus.lettrboxed.repository.RepositoryFilme;
 import com.carol_e_mateus.lettrboxed.repository.RepositoryReview;
@@ -39,33 +42,83 @@ public class ServiceFilme {
             repositoryFilme.AddReviewToFilme(u, u.getIdfilme());
 		}
 	}
+    
+    public FilmeDTO converterParaDTO(Filme filme){
+    	
+        List<Review> reviews = repositoryReview.getReviewsFilme(filme.getId());
+        
+        List<ReviewResumoDTO> reviewsDTO = new ArrayList<>();
+       
+        //Pega as reviews do filme e transforma em reviewsDTO
+        for(Review review : reviews) {
+        	
+        	String filmeNome = repositoryFilme.getFilm(review.getIdfilme()).getTitulo();
+        	
+        	String username = repositoryUser.getUser(review.getDono()).getNome();
+        	
+        	ReviewResumoDTO reviewResumidaDTO = new ReviewResumoDTO(username, review.getTexto(),review.getNota());
+    		
+        	reviewsDTO.add(reviewResumidaDTO);
+        	
+        }      
+        
+        FilmeDTO filmeDto = new FilmeDTO(filme.getId(),filme.getTitulo(),filme.getDescricao(),filme.getGenero(),filme.getClassificao(),filme.getAnoLancamento() ,reviewsDTO);
+        
+    	return filmeDto;	
+    }
+
+    
 	
-    public Filme createFilme(Filme f){
+    public FilmeDTO createFilme(Filme f){
 
         Filme ff = new Filme(f.getTitulo(), f.getDescricao(), f.getDiretor(), f.getGenero(), f.getClassificao(), f.getAnoLancamento());
         ff.setId(counter);
         counter++;
-        return repositoryFilme.createFilme(ff);
+        
+        //DTO
+        Filme filme = repositoryFilme.createFilme(ff);
+        
+        FilmeDTO filmeDTO = converterParaDTO(filme);
+        
+        return filmeDTO;
     }
 
     
-    public Filme getFilme(Long id){
+    public FilmeDTO getFilme(Long id){
+    	
+    	Filme filme = repositoryFilme.getFilm(id);
 
-        if (repositoryFilme.getFilm(id) != null) {
-            return repositoryFilme.getFilm(id);
+        if (filme != null) {
+        	
+            FilmeDTO filmeDTO = converterParaDTO(filme);
+        	
+            return filmeDTO;
         }
         return null;
     }
 
-    public List<Filme> getAllFilmes(){
-        return repositoryFilme.getAll();
+    public List<FilmeDTO> getAllFilmes(){
+    	
+    	List<Filme> filmes = repositoryFilme.getAll();
+    	
+    	List<FilmeDTO> filmesDTO = new ArrayList<>();
+    	
+    	for(Filme filme : filmes) {
+    		
+    		filmesDTO.add(converterParaDTO(filme));
+    	}
+    	
+        return filmesDTO;
     }
 
     
-    public Filme updateFilme(Filme f) {
+    public FilmeDTO updateFilme(Filme f) {
         
         repositoryFilme.getFilm(f.getId()).updateFilme(f);
-        return f;
+        
+        FilmeDTO filmeDTO = converterParaDTO(f);
+        
+        return filmeDTO;
     }
     
     public boolean deleteFilme(Long id){
@@ -89,7 +142,7 @@ public class ServiceFilme {
         return true;
     }
 
-    public List<Filme> filtrarFilmes(double nota) {
+    public List<FilmeDTO> filtrarFilmes(double nota) {
         double a = nota;
         List<Filme> passaro = new ArrayList<Filme>();
 
@@ -98,8 +151,16 @@ public class ServiceFilme {
                 passaro.add(f);
             }
         }
+        
+        List<FilmeDTO> filmesDTO = new ArrayList <>();
+        
+        for(Filme filme : passaro) {
+        	
+        	filmesDTO.add(converterParaDTO(filme));
+        	
+        }
 
-        return passaro;
+        return filmesDTO;
     }
 
     public double getRatingMedio (Long id) {

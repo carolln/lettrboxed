@@ -2,6 +2,11 @@ package com.carol_e_mateus.lettrboxed.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.carol_e_mateus.lettrboxed.dto.FilmeResumoDTO;
+import com.carol_e_mateus.lettrboxed.dto.ReviewDTO;
+import com.carol_e_mateus.lettrboxed.dto.ReviewResumoDTO;
+import com.carol_e_mateus.lettrboxed.dto.UserDTO;
 import com.carol_e_mateus.lettrboxed.model.*;
 import com.carol_e_mateus.lettrboxed.repository.RepositoryFilme;
 import com.carol_e_mateus.lettrboxed.repository.RepositoryReview;
@@ -39,30 +44,115 @@ public class ServiceUser {
             repositoryUser.AddReviewToUser(u, u.getDono());
 		}
 	}
+    
+    //Review para reviewResumoDTO
+    public ReviewResumoDTO converterReviewParaDTO(Review review) {
+    	
+    	String filme = repositoryFilme.getFilm(review.getIdfilme()).getTitulo();
+    	
+    	String username = repositoryUser.getUser(review.getDono()).getNome();
+    	
+    	ReviewResumoDTO reviewResumoDTO = new ReviewResumoDTO(filme, review.getTexto(), review.getNota());
+    	
+    	return reviewResumoDTO;
+    	
+    }
+    
+    //Filme para filmeResumoDTO
+    public FilmeResumoDTO converterFilmeParaDTO(Filme filme) {
+    	
+    	FilmeResumoDTO filmeDTO = new FilmeResumoDTO(filme.getId(), filme.getTitulo());
+    	
+    	return filmeDTO;
+    	
+    }
+    
+    //User para DTO
+    public UserDTO converterParaDTO(User user) {
+    	
+    	//Reviews -> dto
+    	
+    	List<Review> reviews = new ArrayList<>();
+    	
+    	for(Long id : user.getReviews()) {
+    		reviews.add(repositoryReview.getReview(id));
+    	}
+    	
+    	List<ReviewResumoDTO> reviewsResumidas = new ArrayList<>();
+    	
+    	for(Review review : reviews){
+    		
+    		reviewsResumidas.add(converterReviewParaDTO(review));
+    	}
+    	
+    	//Filmes -> dto
+    	
+    	List<Filme> filmes = new ArrayList<>();
+    	
+    	for(Long id : user.getFilmesAssistidos()) {
+    		filmes.add(repositoryFilme.getFilm(id));
+    	}
+    	
+    	List<FilmeResumoDTO> filmesResumidos = new ArrayList<>();
+    	
+    	for(Filme filme : filmes){
+    		
+    		filmesResumidos.add(converterFilmeParaDTO(filme));
+    	}
+    	
+    	//Long id, String name, String email, List<ReviewResumoDTO> reviews, List<FilmeResumoDTO> filmesAssistidos
+    	
+    	UserDTO userDTO = new UserDTO (user.getId(),user.getNome(),user.getEmail(),reviewsResumidas,filmesResumidos);
+    	
+    	return userDTO;
+    	
+    }
 
-    public User createUser(User user) {
+    public UserDTO createUser(User user) {
         repositoryUser.createUser(user);
         user.setId(counter);
         counter++;
-        return user;
+        
+        UserDTO userDTO = converterParaDTO(user);
+        
+        return userDTO;
     }
 
-    public User getUser(Long id) {
+    public UserDTO getUser(Long id) {
+    	
+    	User user = repositoryUser.getUser(id);
 
-        if (repositoryUser.getUser(id) != null) {
-            return repositoryUser.getUser(id);
+        if (user != null) {
+        	
+            UserDTO userDTO = converterParaDTO(user);
+        	
+            return userDTO;
         }
         return null;
     }
 
-    public User updateUser(User u) {
-        return repositoryUser.getUser(u.getId()).updateUser(u);
+    public UserDTO updateUser(User u) {
+    	User user  = repositoryUser.getUser(u.getId()).updateUser(u);
+    	 UserDTO userDTO = converterParaDTO(user);
+    	
+        return userDTO;
     }
 
-    public List<User> getAllUsers() {
+    public List<UserDTO> getAllUsers() {
 
         List<User> a = new ArrayList<>(repositoryUser.getAll());
-        return a;
+        
+        List<UserDTO> usersDTO = new ArrayList<>();
+        
+        for(User user : a) {
+        	
+        	 UserDTO userDTO = converterParaDTO(user);
+        	
+        	 usersDTO.add(userDTO);
+        }
+        
+        
+        return usersDTO;
         
     }
 

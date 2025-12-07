@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.carol_e_mateus.lettrboxed.dto.UserDTO;
 import com.carol_e_mateus.lettrboxed.model.*;
 import com.carol_e_mateus.lettrboxed.service.*;
 import java.util.*;
@@ -23,12 +24,12 @@ public class ControllerUser {
     private ServiceUser serviceUser;
 
     @GetMapping
-    public List<User> getAllUsers() {
+    public List<UserDTO> getAllUsers() {
         return serviceUser.getAllUsers();
     }
 
     @GetMapping("/{id}")
-    public User getUser(@PathVariable Long id) {
+    public UserDTO getUser(@PathVariable Long id) {
         return serviceUser.getUser(id);
     }
 
@@ -38,12 +39,12 @@ public class ControllerUser {
     }
 
     @PostMapping()
-    public User createUser(@RequestBody User u) {
+    public UserDTO createUser(@RequestBody User u) {
         return serviceUser.createUser(u);
     }
 
     @PutMapping("/put")
-    public User updateUser(@RequestBody User u) {
+    public UserDTO updateUser(@RequestBody User u) {
         return serviceUser.updateUser(u);
     }
 
