@@ -2,14 +2,14 @@ package com.carol_e_mateus.lettrboxed.dto;
 
 public class ReviewResumoDTO {
 	
-	private String user;
+	private String filme;
 	
 	private String texto;
 	
 	private int nota;	
 
-	public String getUser() {
-		return user;
+	public String getFilme() {
+		return filme;
 	}
 
 	public String getTexto() {
@@ -20,9 +20,9 @@ public class ReviewResumoDTO {
 		return nota;
 	}
 
-	public ReviewResumoDTO(String user, String texto, int nota) {
+	public ReviewResumoDTO(String filme, String texto, int nota) {
 		super();
-		this.user = user;
+		this.filme = filme;
 		this.texto = texto;
 		this.nota = nota;
 	}

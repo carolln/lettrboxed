@@ -50,8 +50,6 @@ public class ServiceUser {
     	
     	String filme = repositoryFilme.getFilm(review.getIdfilme()).getTitulo();
     	
-    	String username = repositoryUser.getUser(review.getDono()).getNome();
-    	
     	ReviewResumoDTO reviewResumoDTO = new ReviewResumoDTO(filme, review.getTexto(), review.getNota());
     	
     	return reviewResumoDTO;
